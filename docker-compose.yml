@@ -2,5 +2,6 @@ version: "3.9"
 services:
   goapi:
     build: .
+    restart: unless-stopped
     ports:
       - "8067:8067"
