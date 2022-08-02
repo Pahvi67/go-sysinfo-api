@@ -21,11 +21,8 @@ RUN go install -v ./...
 # Copy the source from the current directory to the Working Directory inside the container
 COPY . .
 
-# Build the Go app
-RUN go build -o statusApi .
-
 # Expose port 8067 to the outside world
 EXPOSE 8067
 
 # Run the executable
-CMD ["./statusApi"]
+CMD ["./start.sh"]

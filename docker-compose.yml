@@ -3,5 +3,11 @@ services:
   goapi:
     build: .
     restart: unless-stopped
+    container_name: go-sysinfo
+    hostname: go-sysinfo
     ports:
       - "8067:8067"
+    volumes:
+      - .:/app
+    env_file:
+      - .env

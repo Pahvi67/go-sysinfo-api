@@ -2,6 +2,7 @@ package main
 
 import (
 	"math"
+	"os"
 	"runtime"
 	"time"
 
@@ -22,11 +23,20 @@ type ServerStatus struct {
 func main() {
 	r := gin.Default()
 
-	r.GET("/ping", func(c *gin.Context) {
+	authorized := r.Group("/", gin.BasicAuth(gin.Accounts{
+		"admin": os.Getenv("PASSWORD"),
+	}))
+
+	authorized.GET("ping", func(c *gin.Context) {
+		user := c.MustGet(gin.AuthUserKey).(string)
+		_ = user
+
 		c.String(200, "pong")
 	})
 
-	r.GET("/status", func(c *gin.Context) {
+	authorized.GET("/status", func(c *gin.Context) {
+		_ = c.MustGet(gin.AuthUserKey).(string)
+
 		var serverStatus ServerStatus
 
 		// get ram percent
